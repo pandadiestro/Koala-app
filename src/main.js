@@ -1,8 +1,9 @@
 import { chatContainer, chatInput, Conversation } from './chat';
 import { $ } from './utils';
 import './voice';
+import './feedbackdialogs';
 
-const conversationWithKoala = new Conversation();
+export const conversationWithKoala = new Conversation();
 
 const hideTutorial = () => {
   const tutorial = $('#chat-tutorial');
@@ -31,7 +32,16 @@ $("#message-form").addEventListener("submit", async (e) => {
   }
   chatInput.value = "";
   conversationWithKoala.addMessage(userInput, "user");
-  
-  const koalaResponse = await conversationWithKoala.getKoalaResponse();
-  conversationWithKoala.addMessage(koalaResponse, "koala");
+  chatInput.disabled = true;
+ 
+  try {
+    const koalaResponse = await conversationWithKoala.getKoalaResponse();
+    conversationWithKoala.addMessage(koalaResponse, "koala");
+  }
+  catch (e) {
+    conversationWithKoala.addMessage("There was an error, please try again :D", "koala");
+  }
+  finally {
+    chatInput.disabled = false;
+  }
 });

@@ -1,4 +1,6 @@
-import { sendToKoala } from './openai';
+import { showFeedbackDialog } from './feedbackdialogs';
+import { conversationWithKoala } from './main';
+import { getKoalaPunctuation, sendToKoala } from './openai';
 import { $, scrollToBottom } from './utils';
 
 export const chatInput = $("#message-input");
@@ -21,6 +23,7 @@ export class Message {
 export class Conversation {
   constructor() {
     this.messages = [];
+    this.scores = [];
   }
 
   addMessage(content, from) {
@@ -35,6 +38,13 @@ export class Conversation {
     }).join('\n');
   }
 
+  updateScores(score) {
+    console.log( { score } );
+    this.scores.push(score);
+    const averageScore = this.scores.reduce((a, b) => a + b, 0) / this.scores.length;
+    $("#chat-dashboard__fluency").textContent = Math.round(averageScore);
+  }
+
   async getKoalaResponse() {
     return sendToKoala(
       this.allMessages() + '\nkoala: '
@@ -42,9 +52,26 @@ export class Conversation {
   }
 }
 
+// function feedBackDialog(messageInput, from) {
+//   const dialog = document.createElement('div');
+//   dialog.classList.add('feedback-dialog');
+//   dialog.innerHTML = `
+//     <div class="feedback-dialog__content">
+//       <div class="feedback-dialog__message">
+//         ${messageInput}
+//       </div>
+//       <div class="feedback-dialog__buttons">
+//         <button class="feedback-dialog__button feedback-dialog__button--bad">👎</button>
+//         <button class="feedback-dialog__button feedback-dialog__button--good">👍</button>
+//       </div>
+//     </div>
+//   `;
+//   return dialog;
+// }
+
 // HTML element that represents a chat message
 //  it has an image if it's from Koala
-export function chatMessageElement(message, from) {
+export function chatMessageElement(messageInput, from) {
   const element = document.createElement("div");
   element.classList.add("chat-message");
   element.classList.add(from);
@@ -56,15 +83,38 @@ export function chatMessageElement(message, from) {
     image.height = 40;
     element.appendChild(image);
   }
+  if (from === "user") {
+    const seeFeedbackButton = document.createElement("button");
+    getKoalaPunctuation(messageInput).then((punctuation) => {
+      seeFeedbackButton.textContent = "👀";
+      seeFeedbackButton.classList.add("see-feedback-btn");
+      seeFeedbackButton.addEventListener("click", () => {
+        showFeedbackDialog(messageInput, punctuation);
+      });
+      element.appendChild(seeFeedbackButton);
+      if (punctuation.includes("/") && !punctuation.includes("(")) {
+        const score = Number(punctuation.split("/")[0]);
+        if (!Number.isNaN(score)) {
+          conversationWithKoala.updateScores(score);
+        }
+      }
+      else {
+        const score = Number(punctuation.slice(1, -1).split("/")[0]);
+        if (!Number.isNaN(score)) {
+          conversationWithKoala.updateScores(score);
+        }
+      }
+    });
+  }
   const messagContent = document.createElement("div");
   messagContent.classList.add("content");
-  messagContent.textContent = message;
+  messagContent.textContent = messageInput;
   element.appendChild(messagContent);
   return element;
 }
 
-function appendMessageElement(message, from) {
+function appendMessageElement(messageInput, from) {
   chatContainer.appendChild(
-    chatMessageElement(message, from)
+    chatMessageElement(messageInput, from)
   );
 }

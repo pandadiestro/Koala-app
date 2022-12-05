@@ -1,4 +1,5 @@
 import { showFeedbackDialog } from './feedbackdialogs';
+import { conversationWithKoala } from './main';
 import { getKoalaPunctuation, sendToKoala } from './openai';
 import { $, scrollToBottom } from './utils';
 
@@ -22,6 +23,7 @@ export class Message {
 export class Conversation {
   constructor() {
     this.messages = [];
+    this.scores = [];
   }
 
   addMessage(content, from) {
@@ -34,6 +36,13 @@ export class Conversation {
     return this.messages.map((message) => {
       return `${message.from}: ${message.message}`;
     }).join('\n');
+  }
+
+  updateScores(score) {
+    console.log( { score } );
+    this.scores.push(score);
+    const averageScore = this.scores.reduce((a, b) => a + b, 0) / this.scores.length;
+    $("#chat-dashboard__fluency").textContent = Math.round(averageScore);
   }
 
   async getKoalaResponse() {
@@ -83,6 +92,18 @@ export function chatMessageElement(messageInput, from) {
         showFeedbackDialog(messageInput, punctuation);
       });
       element.appendChild(seeFeedbackButton);
+      if (punctuation.includes("/") && !punctuation.includes("(")) {
+        const score = Number(punctuation.split("/")[0]);
+        if (!Number.isNaN(score)) {
+          conversationWithKoala.updateScores(score);
+        }
+      }
+      else {
+        const score = Number(punctuation.slice(1, -1).split("/")[0]);
+        if (!Number.isNaN(score)) {
+          conversationWithKoala.updateScores(score);
+        }
+      }
     });
   }
   const messagContent = document.createElement("div");

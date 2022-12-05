@@ -1,10 +1,9 @@
 import { chatContainer, chatInput, Conversation } from './chat';
-import { getKoalaPunctuation } from './openai';
 import { $ } from './utils';
 import './voice';
 import './feedbackdialogs';
 
-const conversationWithKoala = new Conversation();
+export const conversationWithKoala = new Conversation();
 
 const hideTutorial = () => {
   const tutorial = $('#chat-tutorial');

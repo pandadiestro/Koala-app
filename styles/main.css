@@ -16,6 +16,10 @@
   box-sizing: border-box;
 }
 
+.hidden {
+  display: none !important;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -23,6 +27,9 @@ a {
 }
 a:hover {
   color: #535bf2;
+}
+html {
+  background-color: #1a1a1a !important;
 }
 body {
   min-height: 100vh;
@@ -120,6 +127,47 @@ button:focus-visible {
   justify-content: center;
 }
 
+#feedback-dialog {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#feedback-dialog__container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 600px;
+  max-height: 400px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#feedback-dialog__message {
+  font-weight: 500;
+  margin-bottom: 1rem;
+  align-self: center;
+}
+#feedback-dialog__close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
 #chat-container {
   display: flex;
   flex-direction: column;
@@ -156,8 +204,9 @@ button:focus-visible {
 }
 
 #messages-container .chat-message {
-  margin-top: 15px;
   display: flex;
+  position: relative;
+  margin-top: 15px;
 }
 .chat-message.user {
   align-self: flex-end;
@@ -177,7 +226,7 @@ button:focus-visible {
   color: #646cff;
 }
 
-#messages-container .chat-message .content {
+.chat-message .content {
   display: flex;
   align-items: center;
   min-width: 160px;
@@ -187,12 +236,42 @@ button:focus-visible {
   border-bottom: 2px solid #949598;
   border-right: 2px solid #949598;
   padding: 2px 10px;
+  transition: max-width 0.25s;
 }
+
+@media only screen and (max-width: 800px) {
+  .chat-message .content {
+    max-width: 400px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .chat-message .content {
+    max-width: 300px;
+  }
+}
+
 .chat-message.user .content {
   background-color: #F8F5C0;
 }
+.chat-message.user .see-feedback-btn {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  right: -5px;
+  top: -10px;
+  color: #646cff;
+  font-size: 20px;
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.chat-message.user .see-feedback-btn:hover {
+  border-color: transparent !important;
+}
+
 .chat-message.koala .content {
   background-color: #FEFEFE;
 }
-
-

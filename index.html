@@ -25,6 +25,23 @@
             </div>
           </div>
           <div id="chat-container">
+            <div id="feedback-dialog" class="hidden">
+                <div id="feedback-dialog__container">
+                    <button id="feedback-dialog__close-btn">X</button>
+                    <div id="feedback-dialog__message" class="chat-message user">
+                        <div class="content">
+                            Hello Koala my dear friend.
+                        </div>
+                    </div>
+                    <img id="feedback-dialog__image" src="/koala.png" alt="Koala image" height="80" width="80">
+                    <p>Koala says</p>
+                    <div id="feedback-dialog__feedback">
+                        <div class="content">
+                            8. Your English grammar and spelling are both quite good in the phrase "Hello Koala my dear friend." There are no errors to point out, but you could try using more varied sentence structure and vocabulary to make your writing more interesting and engaging.
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div id="messages-container">
                 <div id="chat-tutorial">
                     <button id="chat-tutorial__start-talking-btn">Empieza a hablar con Koala</button>
@@ -33,7 +50,7 @@
                 </div>
             </div>
             <form id="message-form">
-              <input type="text" id="message-input" autocomplete="off" />
+              <input type="text" id="message-input" autocomplete="off" placeholder="Say something in english!" />
               <button id="send-input" type="submit">Send</button>
               <button id="toggle-mic" type="button">🎙️</button>
             </form>

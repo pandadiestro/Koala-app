@@ -1,6 +1,8 @@
 import { chatContainer, chatInput, Conversation } from './chat';
+import { getKoalaPunctuation } from './openai';
 import { $ } from './utils';
 import './voice';
+import './feedbackdialogs';
 
 const conversationWithKoala = new Conversation();
 
@@ -31,7 +33,7 @@ $("#message-form").addEventListener("submit", async (e) => {
   }
   chatInput.value = "";
   conversationWithKoala.addMessage(userInput, "user");
-  
+ 
   const koalaResponse = await conversationWithKoala.getKoalaResponse();
   conversationWithKoala.addMessage(koalaResponse, "koala");
 });

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles/main.css" />
+    <title>Koala bot</title>
+  </head>
+  <body>
+    <div id="app">
+      <div id="container">
+        <header>
+          <h1>Habla con Koala</h1>
+        </header>
+        <main>
+          <div id="chat-dashboard">
+            <div class="chat-dashboard__item">
+              <div>Tema del día 🔥</div>
+              <span>La escuela</span>
+            </div>
+            <div class="chat-dashboard__item">
+              <div>Fluidez</div>
+              <span>+100</span>
+            </div>
+          </div>
+          <div id="chat-container">
+            <div id="messages-container">
+                <div id="chat-tutorial">
+                    <button id="chat-tutorial__start-talking-btn">Empieza a hablar con Koala</button>
+                    o
+                    <button id="chat-tutorial__make-koala-start-btn">deja que koala comience</button>
+                </div>
+            </div>
+            <form id="message-form">
+              <input type="text" id="message-input" autocomplete="off" />
+              <button id="send-input" type="submit">Send</button>
+              <button id="toggle-mic" type="button">🎙️</button>
+            </form>
+          </div>
+        </main>
+        <footer>Hecho por grupo 3</footer>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

@@ -32,7 +32,16 @@ $("#message-form").addEventListener("submit", async (e) => {
   }
   chatInput.value = "";
   conversationWithKoala.addMessage(userInput, "user");
+  chatInput.disabled = true;
  
-  const koalaResponse = await conversationWithKoala.getKoalaResponse();
-  conversationWithKoala.addMessage(koalaResponse, "koala");
+  try {
+    const koalaResponse = await conversationWithKoala.getKoalaResponse();
+    conversationWithKoala.addMessage(koalaResponse, "koala");
+  }
+  catch (e) {
+    conversationWithKoala.addMessage("There was an error, please try again :D", "koala");
+  }
+  finally {
+    chatInput.disabled = false;
+  }
 });

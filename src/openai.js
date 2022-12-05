@@ -13,7 +13,7 @@ async function openaiRequest(requestBody) {
     method: "POST",
     headers: {
       'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
-      'OpenAI-Organization': 'org-XZM5MYZC4FwAmxLSIybbs9kH',
+      'OpenAI-Organization': import.meta.env.VITE_OPENAI_API_ORG,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(requestBody)

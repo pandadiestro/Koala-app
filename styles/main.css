@@ -92,17 +92,18 @@ footer {
 }
 
 a {
-  display: flex;
+  display: inline-flex;
   justify-content: right;
   align-items: center;
 }
 footer p {
   margin-right: 10px;
-  color:rgb(43, 41, 40)
+  color:rgb(43, 41, 40);
+  text-decoration: underline;
 }
 footer img {
   margin-right: 5px;
-  color:rgb(43, 41, 40)
+  color:rgb(43, 41, 40);
 }
 
 #app {

@@ -23,8 +23,8 @@ $('#chat-tutorial__make-koala-start-btn').addEventListener('click', async () => 
 // Messages submitted by the user
 $("#message-form").addEventListener("submit", async (e) => {
   e.preventDefault();
-  let userInput = chatInput.value;
-  if (userInput.trim() === '') {
+  let userInput = chatInput.value.trim();
+  if (userInput === '') {
     return;
   }
   if (conversationWithKoala.messages.length === 0) {

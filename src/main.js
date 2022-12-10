@@ -10,7 +10,7 @@ const hideTutorial = () => {
   chatContainer.removeChild(tutorial);
 };
 
-// Tutorial screen has two buttons
+// Tutorial screen has two buttons:
 $('#chat-tutorial__start-talking-btn').addEventListener('click', () => {
   chatInput.focus();
 });
@@ -27,6 +27,7 @@ $("#message-form").addEventListener("submit", async (e) => {
   if (userInput === '') {
     return;
   }
+  // Is the first message?
   if (conversationWithKoala.messages.length === 0) {
     hideTutorial();
   }
@@ -43,5 +44,6 @@ $("#message-form").addEventListener("submit", async (e) => {
   }
   finally {
     chatInput.disabled = false;
+    chatInput.focus();
   }
 });

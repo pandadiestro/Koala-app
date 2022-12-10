@@ -143,12 +143,12 @@ main {
   width: 100%;
   transition: background-color 0.25s;
 }
-.app-sidebar__option__current {
+.app-sidebar__option.current a {
   background-color: var(--sidebar-secondary-color);
   pointer-events: none;
   cursor: pointer;
 }
-.app-sidebar__option__current::before {
+.app-sidebar__option.current a::before {
   content: '';
   position: absolute;
   left: 0;

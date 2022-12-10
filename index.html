@@ -5,25 +5,50 @@
     <link rel="icon" type="image/svg+xml" href="/koala.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/styles/globals.css" />
+    <link rel="stylesheet" href="/styles/chat.css" />
     <title>Koala bot</title>
   </head>
   <body>
     <div id="app">
-      <div id="container">
-        <header>
-          <h1>Koala App</h1>
-          <h2>Compañero de IA para aprender Inglés a tu ritmo</h2>
-        </header>
-        <main>
-          Inicia sesión koalito
-        </main>
-        <footer>
-            <a href="https://github.com/PandaDiestro/Koala-app" target="_blank">
-                <img src="https://procsoft.files.wordpress.com/2019/10/cropped-logo-fisi-3.png?w=240" width="20" height="20" />
-                <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width="20" height="20" />
-                <p>Check out on Github</p>
-            </a>
-        </footer>
+      <div id="app-container">
+        <aside id="app-sidebar">
+            <ul id="app-sidebar__options">
+                <img id="app-sidebar__koala-logo" src="/koala.png" alt="Koala image" height="100" width="100">
+                <li class="app-sidebar__option">
+                    <a href="/">Dashboard</a>
+                </li>
+                <li class="app-sidebar__option">
+                    <a class="app-sidebar__option__current" href="/chat/">Koala chat</a>
+                </li>
+                <li class="app-sidebar__option">
+                    <a href="/translate/">Koala translate</a>
+                </li>
+            </ul>
+            <footer>
+                <ul>
+                    <li>
+                        <a href="https://sistemas.unmsm.edu.pe/" target="_blank">
+                            <img src="https://procsoft.files.wordpress.com/2019/10/cropped-logo-fisi-3.png?w=240" width="20" height="20" />
+                            <span>Powered by FISI</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/PandaDiestro/Koala-app" target="_blank">
+                            <img src="https://www.shareicon.net/data/2015/09/15/101512_logo_512x512.png" width="20" height="20" />
+                            <span>Source code</span>
+                        </a>
+                    </li>
+                </ul>
+            </footer>
+        </aside>
+        <div id="app-wrapper">
+            <header>
+            <h1>🐨 Habla con Koala</h1>
+            <h2>Compañero de IA para aprender Inglés a tu ritmo</h2>
+            </header>
+            <main>
+            </main>
+        </div>
       </div>
     </div>
     <script type="module" src="/src/main.js"></script>

@@ -52,23 +52,6 @@ export class Conversation {
   }
 }
 
-// function feedBackDialog(messageInput, from) {
-//   const dialog = document.createElement('div');
-//   dialog.classList.add('feedback-dialog');
-//   dialog.innerHTML = `
-//     <div class="feedback-dialog__content">
-//       <div class="feedback-dialog__message">
-//         ${messageInput}
-//       </div>
-//       <div class="feedback-dialog__buttons">
-//         <button class="feedback-dialog__button feedback-dialog__button--bad">👎</button>
-//         <button class="feedback-dialog__button feedback-dialog__button--good">👍</button>
-//       </div>
-//     </div>
-//   `;
-//   return dialog;
-// }
-
 // HTML element that represents a chat message
 //  it has an image if it's from Koala
 export function chatMessageElement(messageInput, from) {

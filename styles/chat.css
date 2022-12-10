@@ -2,21 +2,13 @@
   --chat-padding-horizontal: 250px;
 }
 
-footer p {
-  margin-right: 10px;
-  color: #2b2928;
-}
-footer img {
-  margin-right: 5px;
-  color: #2b2928;
-}
-
 #chat-dashboard {
   display: flex;
   justify-content: space-evenly;
   height: 60px;
   border-top: 1px solid #1a1a1a;
   border-bottom: 1px solid #1a1a1a;
+  background-color: #e4e4e4;
 }
 .chat-dashboard__item {
   display: flex;
@@ -135,7 +127,7 @@ footer img {
   align-items: center;
   justify-content: center;
   font-size: 0.8em;
-  color: #646cff;
+  user-select: none;
 }
 
 .chat-message .content {

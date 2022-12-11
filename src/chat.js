@@ -47,7 +47,7 @@ export class Conversation {
 
   async getKoalaResponse() {
     return sendToKoala(
-      this.allMessages() + '\nkoala: '
+      this.allMessages() + '\nkoala:'
     );
   }
 }

@@ -141,6 +141,7 @@
   border-right: 2px solid #949598;
   padding: 8px 10px;
   overflow-wrap: break-word;
+  word-break: break-word;
   transition: max-width 0.25s;
 }
 

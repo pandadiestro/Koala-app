@@ -214,6 +214,16 @@ main p {
   width: 100%;
 }
 
+img {
+  user-select: none;
+  user-drag: none;
+  -webkit-user-drag: none;
+}
+
+[placeholder] {
+  user-select: none;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -223,6 +233,7 @@ button {
   font-family: inherit;
   background-color: #f9f9f9;
   cursor: pointer;
+  user-select: none;
   transition: border-color 0.25s;
 }
 button:hover {

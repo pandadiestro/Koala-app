@@ -40,6 +40,12 @@ class KoalaTranslator {
     });
   }
 
+  hideStartButton() {
+    $("#start-translator-btn-container").remove();
+    this.writableInput.textContent = '';
+    this.writableInput.focus();
+  }
+
   async startTranslator() {
     const existStartButton = Boolean($("#start-translator-btn"));
     console.log(this);
@@ -52,10 +58,7 @@ class KoalaTranslator {
     console.log({plainResponse});
 
     if (existStartButton) {
-      // Hide start button
-      $("#start-translator-btn-container").remove();
-      this.writableInput.textContent = '';
-      this.writableInput.focus();
+      this.hideStartButton();
     }
   
     const [randomSpanishSentence, translationsList] = plainResponse.trim().split(/\nEnglish translation:\s?\n/im);
@@ -112,8 +115,12 @@ class KoalaTranslator {
 
     // Fired when results animation is done
     window.setTimeout(() => {
-      $('#translator-feedback-content__text p').textContent = this.englishTranslations.join('\n');
+      // TODO: update this
+      // show possible translations
+      $('#translator-feedback-content__text p').innerHTML = '<strong>Possibles traducciones:</strong>\n\n'
+      $('#translator-feedback-content__text p').innerHTML += this.englishTranslations.join('\n');
       this.showNextButton();
+
       if (matched) {
         throwConfetti();
         this.showNextButton();

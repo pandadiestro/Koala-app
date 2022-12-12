@@ -111,7 +111,7 @@
 #messages-container .chat-message {
   display: flex;
   position: relative;
-  margin-top: 15px;
+  margin-top: 1.5rem;
 }
 .chat-message.user {
   justify-content: end;
@@ -126,7 +126,6 @@
   margin-top: 15px;
   align-items: center;
   justify-content: center;
-  font-size: 0.8em;
   user-select: none;
 }
 

@@ -11,6 +11,8 @@ class KoalaTranslator {
     this.startButton = $('#start-translator-btn');
     this.nextButton = $('#translator-feedback-content__buttons__next');
     this.textToTranslateGlobe = $('#text-to-translate-container__text');
+    this.sendInputButton = $('#send-translator-input-btn');
+    this.sendInputButton.disabled = true;
 
     this.nextButton.addEventListener('click', () => {
       this.clear();
@@ -19,6 +21,33 @@ class KoalaTranslator {
 
     this.startButton.addEventListener('click', () => {
       koalaTranslator.startTranslator();
+    });
+
+    this.writableInput.addEventListener('keydown', (e) => {
+      if (e.code === 'Enter') {
+        e.preventDefault(); // Prevents the addition of a new line
+        // If is not empty and is not shift+enter
+        if (e.target.textContent.trim() !== '' && !e.shiftKey) {
+          koalaTranslator.checkTranslatedUserInput();
+        }
+      }
+    });
+    this.writableInput.addEventListener('input', () => {
+      const inputContent = this.writableInput.textContent;
+      if (inputContent.trim() !== '') {
+        console.log('setting to false');
+        this.sendInputButton.disabled = false;
+      }
+      else {
+        console.log('setting to true');
+        this.sendInputButton.disabled = true;
+      }
+    });
+
+    $('#send-translator-input-btn').addEventListener('click', (e) => {
+      if (this.writableInput.textContent.trim() !== '') {
+        koalaTranslator.checkTranslatedUserInput();
+      }
     });
   }
 
@@ -33,11 +62,17 @@ class KoalaTranslator {
   }
 
   showNextButton() {
-    $('#translator-feedback-content').classList.remove('hidden');
-    $('#translator-feedback-content__buttons').classList.remove('hidden');
+    $('#translator-feedback-content__buttons__next').classList.remove('hidden');
     this.nextButton.focus({
       preventScroll: true,
     });
+  }
+  hideNextButton() {
+    $('#translator-feedback-content__buttons__next').classList.add('hidden');
+  }
+
+  showSendButton() {
+    this.sendInputButton.classList.remove('hidden');
   }
 
   hideStartButton() {
@@ -47,19 +82,20 @@ class KoalaTranslator {
   }
 
   async startTranslator() {
+    this.hideNextButton();
     const existStartButton = Boolean($("#start-translator-btn"));
-    console.log(this);
     if (existStartButton) {
       this.startButton.textContent = 'Loading...';
       this.startButton.disabled = true;
     }
     const plainResponse = await getKoalaTranslation();
-
-    console.log({plainResponse});
+    
+    console.log(this);
 
     if (existStartButton) {
       this.hideStartButton();
     }
+    this.showSendButton();
   
     const [randomSpanishSentence, translationsList] = plainResponse.trim().split(/\nEnglish translation:\s?\n/im);
     
@@ -78,6 +114,7 @@ class KoalaTranslator {
   }
 
   checkTranslatedUserInput() {
+    this.sendInputButton.disabled = true;
     const userInput = this.writableInput.textContent.trim();
     
     const matched = this.englishTranslations.some((translation) => {
@@ -117,13 +154,13 @@ class KoalaTranslator {
     window.setTimeout(() => {
       // TODO: update this
       // show possible translations
-      $('#translator-feedback-content__text p').innerHTML = '<strong>Possibles traducciones:</strong>\n\n'
+      $('#translator-feedback-content__text p').innerHTML = '<strong>Posibles traducciones:</strong>\n\n'
       $('#translator-feedback-content__text p').innerHTML += this.englishTranslations.join('\n');
       this.showNextButton();
+      $('#translator-feedback-content').classList.remove('hidden');
 
       if (matched) {
         throwConfetti();
-        this.showNextButton();
       }
     }, 300 * userInputWords.length); // total time of animation
 
@@ -133,18 +170,6 @@ class KoalaTranslator {
 }
 
 const koalaTranslator = new KoalaTranslator();
-
-$('#translator-input-writable').addEventListener('keydown', (e) => {
-  if (e.code === 'Enter') {
-    e.preventDefault(); // Prevents the addition of a new line
-    // If is not empty and is not shift+enter
-    if (e.target.textContent.trim() !== '' && !e.shiftKey) {
-      koalaTranslator.checkTranslatedUserInput();
-    }
-    return;
-  }
-});
-
 
 // https://stackoverflow.com/a/12028136/18114046
 $('#translator-input-writable').addEventListener("paste", function(e) {

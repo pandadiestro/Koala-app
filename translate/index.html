@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="/koala.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/styles/globals.css" />
-    <link rel="stylesheet" href="/styles/chat.css" />
+    <link rel="stylesheet" href="/styles/translate.scss" />
     <title>Koala translate</title>
   </head>
   <body>
@@ -42,15 +42,41 @@
             </footer>
         </aside>
         <div id="app-wrapper">
-            <header>
-            <h1>🐨 Traduce con Koala</h1>
-            <h2>Compañero de IA para aprender Inglés a tu ritmo</h2>
+            <header id="app-header">
+                <h1>🐨 Traduce con Koala</h1>
+                <h2>Compañero de IA para aprender Inglés a tu ritmo</h2>
             </header>
             <main>
+                <canvas id="confetti-canvas"></canvas>
+                <header id="translator-header">
+                    <div id="koala-teacher-img-container">
+                        <img src="/koala-teacher.png" alt="Koala image" height="220" width="240" />
+                    </div>
+                    <div>
+                        <div id="text-to-translate-container">
+                            <p id="text-to-translate-container__text">¿Listo para traducir...?</p>
+                        </div>
+                    </div>
+                </header>
+                <div id="translator-input-container">
+                    <div id="start-translator-btn-container">
+                        <button id="start-translator-btn" contenteditable="false">Empezar 🐨</button>
+                    </div>
+                    <div contenteditable id="translator-input-writable" class="translation-result" placeholder="Translate to English here!">
+                    </div>
+                </div>
+                <div id="translator-feedback">
+                    <div id="translator-feedback-content">
+                        <div id="translator-feedback-content__text"><p></p></div>
+                    </div> 
+                    <div id="translator-feedback-content__buttons" class="hidden">
+                        <button id="translator-feedback-content__buttons__next">Siguiente</button>
+                    </div>
+                </div>
             </main>
         </div>
       </div>
     </div>
-    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/translator.js"></script>
   </body>
 </html>

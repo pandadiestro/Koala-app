@@ -1,4 +1,5 @@
 import annyang from 'annyang';
+import { chatInput } from './chat';
 import { $ } from './utils';
 
 export let chatMicListening = false;
@@ -22,7 +23,7 @@ if (annyang) {
   });
 
   annyang.addCallback("result", (input) => {
-    $("#message-input").value = input[0];
+    chatInput.value = input[0];
     annyang.abort();
   });
 
@@ -35,4 +36,5 @@ if (annyang) {
 else {
   console.log("no funciona");
   micButton.disabled = true;
+  micButton.title = "Tu navegador no soporta esta funcionalidad 😿";
 }

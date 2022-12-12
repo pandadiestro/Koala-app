@@ -103,6 +103,21 @@ main {
 main section {
   padding-left: 1rem;
   margin-top: 1rem;
+  width: 100%;
+  text-align: center;
+}
+main section h2 {
+  font-size: x-large;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+main section i {
+  text-justify: inter-word;
+  margin: 0 auto;
+  margin-bottom: 1rem;
+  display: block;
+  max-width: 600px;
+  line-height: 2;
 }
 
 #app {

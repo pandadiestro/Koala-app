@@ -6,13 +6,6 @@ import { $, scrollToBottom } from './utils';
 export const chatInput = $("#message-input");
 export const chatContainer = $("#messages-container");
 
-/*
-  <div class="chat-message koala">
-    <img src="/koala.png" height="40px" />
-    <div class="content">Hola</div>
-  </div>
-*/
-
 export class Message {
   constructor(message, from) {
     this.message = message;

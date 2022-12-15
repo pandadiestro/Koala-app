@@ -21,11 +21,14 @@ export async function openaiRequest(requestBody) {
 
 // Chatbot 🐨🐨🐨 =================================
 
-export const KOALA_CHAT_PROMPT = 'Koala is a talkative and sarcastic chatbot to talk about everything, he is funny and always have a topic of conversation. Also koala cant repeat the same message twice.';
-export const KOALA_PUNCTUATION_PROMPT = (message) => ("Koala is a friendly chatbot that is going to analyze OBJECTIVELY (without paying atention to the user intents) in a scale from"
-+ " 0 (incomprehensible sentence) to 100 (regular written english)"
-+ ` how well my english grammar and spelling are after the following phrase: ${message}`
-+ "\n\nscore (in the format n/100) and recommendations: ");
+export const KOALA_CHAT_PROMPT = 'Koala is a talkative and sarcastic chatbot to talk about anything, he is funny and always have a topic of conversation.'
+  + ' (answers english only):\n\n'
+export const KOALA_PUNCTUATION_PROMPT = (message) => (
+  'Koala is a friendly chatbot that is going to analyze OBJECTIVELY (without paying atention to the user intents) in a scale from'
+  + ' 0 (incomprehensible sentence) to 100 (regular written english)'
+  + ` how well my english grammar and spelling are after the following phrase: ${message}`
+  + '\n\nscore (in the format n/100) and recommendations: '
+);
 
 export const KOALA_CHAT_TEMPERATURE = 0.7;
 
@@ -36,6 +39,7 @@ export async function sendToKoala(fullConversation) {
       "prompt": `${KOALA_CHAT_PROMPT}\n` + fullConversation,
       "temperature": KOALA_CHAT_TEMPERATURE,
       "max_tokens": OPEN_AI_MAX_TOKENS,
+      "stop": ["\nkoala:", "\nuser:"]
   });
   console.log(fullConversation, openaiResponse);
   return openaiResponse.choices[0].text;

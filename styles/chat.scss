@@ -124,59 +124,60 @@
     justify-content: center;
     user-select: none;
   }
-  .chat-message {
-    display: flex;
-    position: relative;
-    margin-top: 1.5rem;
+} // end #messages-container
 
+.chat-message {
+  display: flex;
+  position: relative;
+  margin-top: 1.5rem;
+
+  .content {
+    display: flex;
+    align-items: center;
+    min-width: 160px;
+    max-width: 650px;
+    min-height: 30px;
+    border-radius: 10px;
+    border-bottom: 2px solid #949598;
+    border-right: 2px solid #949598;
+    padding: 8px 10px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    transition: max-width 0.25s;
+  }
+  &.chat-message.user {
+    justify-content: end;
     .content {
+      background-color: #F8F5C0;
+    }
+    .see-feedback-btn {
+      position: absolute;
       display: flex;
       align-items: center;
-      min-width: 160px;
-      max-width: 650px;
-      min-height: 30px;
-      border-radius: 10px;
-      border-bottom: 2px solid #949598;
-      border-right: 2px solid #949598;
-      padding: 8px 10px;
-      overflow-wrap: break-word;
-      word-break: break-word;
-      transition: max-width 0.25s;
-    }
-    &.chat-message.user {
-      justify-content: end;
-      .content {
-        background-color: #F8F5C0;
-      }
-      .see-feedback-btn {
-        position: absolute;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        right: -5px;
-        top: -10px;
-        color: #646cff;
-        font-size: 20px;
-        background: none;
-        border: none;
-        margin: 0;
-        padding: 0;
-        cursor: pointer;
+      justify-content: center;
+      right: -5px;
+      top: -10px;
+      color: #646cff;
+      font-size: 20px;
+      background: none;
+      border: none;
+      margin: 0;
+      padding: 0;
+      cursor: pointer;
 
-        &:hover {
-          border-color: transparent !important;
-        }
-      }
-    }
-    &.chat-message.koala {
-      align-self: flex-start;
-
-      .content {
-        background-color: #FEFEFE;
+      &:hover {
+        border-color: transparent !important;
       }
     }
   }
-} // end #messages-container
+  &.chat-message.koala {
+    align-self: flex-start;
+
+    .content {
+      background-color: #FEFEFE;
+    }
+  }
+}
 
 @media only screen and (max-width: 1200px) {
   :root {

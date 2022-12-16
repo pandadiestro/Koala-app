@@ -1,0 +1,205 @@
+:root {
+  --chat-padding-horizontal: 250px;
+}
+
+#chat-dashboard {
+  display: flex;
+  justify-content: space-evenly;
+  height: 60px;
+  border-top: 1px solid #1a1a1a;
+  border-bottom: 1px solid #1a1a1a;
+  background-color: #e4e4e4;
+
+  .chat-dashboard__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+#feedback-dialog {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #00000066;
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  #feedback-dialog__container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-width: 600px;
+    max-height: 600px;
+  
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 1rem;
+    overflow: auto;
+    vertical-align: middle;
+  }
+  #feedback-dialog__message {
+    width: fit-content;
+    margin: auto;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    text-align: center;
+  }
+  #feedback-dialog__close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 0.5rem;
+    cursor: pointer;
+  }
+}
+
+#chat-container {
+  display: grid;
+  grid-template-rows: auto 100px;
+  width: 100%;
+  height: 100%;
+  overflow-y: hidden;
+
+  #message-input-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 50px;
+    width: 100%;
+    padding: 0 var(--chat-padding-horizontal);
+    flex-shrink: 0;
+    margin-top: 20px;
+  
+    #message-form {
+      box-shadow: #0000001a 0px 4px 6px -1px, #0000000f 0px 2px 4px -1px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      &:focus-within {
+        box-shadow: #32325d40 0px 2px 5px -1px, #0000004d 0px 1px 3px -1px;
+      }
+      & input {
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 0;
+        padding: 0 10px;
+        font-size: 1em;
+        font-family: inherit;
+        background-color: #dbd9d8;
+  
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+  }
+}
+
+
+#messages-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--chat-padding-horizontal) 20px var(--chat-padding-horizontal);
+  overflow-y: auto;
+  
+  #chat-tutorial {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+  }
+  .chat-message {
+    display: flex;
+    position: relative;
+    margin-top: 1.5rem;
+
+    .content {
+      display: flex;
+      align-items: center;
+      min-width: 160px;
+      max-width: 650px;
+      min-height: 30px;
+      border-radius: 10px;
+      border-bottom: 2px solid #949598;
+      border-right: 2px solid #949598;
+      padding: 8px 10px;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      transition: max-width 0.25s;
+    }
+    &.chat-message.user {
+      justify-content: end;
+      .content {
+        background-color: #F8F5C0;
+      }
+      .see-feedback-btn {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        right: -5px;
+        top: -10px;
+        color: #646cff;
+        font-size: 20px;
+        background: none;
+        border: none;
+        margin: 0;
+        padding: 0;
+        cursor: pointer;
+
+        &:hover {
+          border-color: transparent !important;
+        }
+      }
+    }
+    &.chat-message.koala {
+      align-self: flex-start;
+
+      .content {
+        background-color: #FEFEFE;
+      }
+    }
+  }
+} // end #messages-container
+
+@media only screen and (max-width: 1200px) {
+  :root {
+    --chat-padding-horizontal: 80px;
+  }
+}
+@media only screen and (max-width: 800px) {
+  .chat-message .content {
+    max-width: 400px;
+  }
+  #app-sidebar {
+    min-width: 0 !important;
+    max-width: 0 !important;
+  }
+  :root {
+    --chat-padding-horizontal: 100px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .chat-message .content {
+    max-width: 300px;
+  }
+  :root {
+    --chat-padding-horizontal: 40px;
+  }
+}

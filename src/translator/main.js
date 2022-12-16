@@ -33,7 +33,7 @@ koalaTranslator.writableInput.addEventListener('input', () => {
   }
 });
 
-$('#send-translator-input-btn').addEventListener('click', (e) => {
+$('#translator-buttons__send').addEventListener('click', (e) => {
   if (koalaTranslator.writableInput.textContent.trim() !== '') {
     koalaTranslator.checkTranslatedUserInput();
   }

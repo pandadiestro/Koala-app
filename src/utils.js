@@ -21,3 +21,9 @@ export function $(query) {
 export function $$(query) {
   return document.querySelectorAll(query)
 }
+
+// Log only in development
+export function log(...args) {
+  if (!import.meta.env.DEV) return;
+  console.log(...args);
+}

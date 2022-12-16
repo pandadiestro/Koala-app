@@ -2,6 +2,8 @@
 // text-davinci-003 (inglés avanzado)
 // text-ada-001 (inglés medio)
 
+import { log } from "./logger";
+
 export const OPENAI_MODEL_GPT2 = 'text-davinci-002';
 export const OPENAI_MODEL_GPT3 = 'text-davinci-003';
 export const OPEN_AI_MAX_TOKENS = 1000;
@@ -41,7 +43,7 @@ export async function sendToKoala(fullConversation) {
       "max_tokens": OPEN_AI_MAX_TOKENS,
       "stop": ["\nkoala:", "\nuser:"]
   });
-  console.log(fullConversation, openaiResponse);
+  log(fullConversation, openaiResponse);
   return openaiResponse.choices[0].text;
 }
 

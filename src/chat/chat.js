@@ -1,7 +1,7 @@
 import { showFeedbackDialog } from './feedbackdialogs';
 import { conversationWithKoala } from './main';
 import { getKoalaPunctuation, sendToKoala } from '../openai';
-import { $, scrollToBottom } from '../utils';
+import { $, log, scrollToBottom } from '../utils';
 
 export const chatInput = $("#message-input");
 export const chatContainer = $("#messages-container");
@@ -32,7 +32,7 @@ export class Conversation {
   }
 
   updateScores(score) {
-    console.log( { score } );
+    log( { score } );
     this.scores.push(score);
     const averageScore = this.scores.reduce((a, b) => a + b, 0) / this.scores.length;
     $("#chat-dashboard__fluency").textContent = Math.round(averageScore);

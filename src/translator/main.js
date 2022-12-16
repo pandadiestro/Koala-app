@@ -1,5 +1,5 @@
 import { KoalaTranslator } from "./translator";
-import { $ } from "../utils";
+import { $, log } from "../utils";
 
 const koalaTranslator = new KoalaTranslator();
 
@@ -24,11 +24,11 @@ koalaTranslator.writableInput.addEventListener('keydown', (e) => {
 koalaTranslator.writableInput.addEventListener('input', () => {
   const inputContent = koalaTranslator.writableInput.textContent;
   if (inputContent.trim() !== '') {
-    console.log('setting to false');
+    log('setting to false');
     koalaTranslator.sendInputButton.disabled = false;
   }
   else {
-    console.log('setting to true');
+    log('setting to true');
     koalaTranslator.sendInputButton.disabled = true;
   }
 });

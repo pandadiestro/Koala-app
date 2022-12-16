@@ -1,4 +1,4 @@
-import { $ } from '../utils';
+import { $, log } from '../utils';
 import { getKoalaTranslation} from '../openai';
 import { throwConfetti } from '../confetti';
 
@@ -54,7 +54,7 @@ export class KoalaTranslator {
     }
     const plainResponse = await getKoalaTranslation();
     
-    console.log(this);
+    log(this);
 
     if (existStartButton) {
       this.hideStartButton();
@@ -74,7 +74,7 @@ export class KoalaTranslator {
         return line.slice(1, line.length - 1).trim();
       });
   
-    // console.log(this.englishTranslations);
+    // log(this.englishTranslations);
   }
 
   checkTranslatedUserInput() {
@@ -100,7 +100,7 @@ export class KoalaTranslator {
 
       window.setTimeout(() => {
         if (this.englishTranslations.some((translation) => {
-          console.log('comparing', word, translation.split(" ")[i]);
+          log('comparing', word, translation.split(" ")[i]);
           return word.toLowerCase() === translation.split(" ")[i]?.toLowerCase();
         })) {
           wordElement.style.color = 'darkgreen';
@@ -128,7 +128,7 @@ export class KoalaTranslator {
       }
     }, 300 * userInputWords.length); // total time of animation
 
-    console.log({userInput});
+    log({userInput});
 
   }
 }

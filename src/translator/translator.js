@@ -9,9 +9,9 @@ export class KoalaTranslator {
     this.englishTranslations = [];
     this.writableInput = $('#translator-input-writable');
     this.startButton = $('#start-translator-btn');
-    this.nextButton = $('#translator-feedback-content__buttons__next');
+    this.nextButton = $('#translator-buttons__next');
     this.textToTranslateGlobe = $('#text-to-translate-container__text');
-    this.sendInputButton = $('#send-translator-input-btn');
+    this.sendInputButton = $('#translator-buttons__send');
     this.sendInputButton.disabled = true;
   }
 
@@ -26,17 +26,20 @@ export class KoalaTranslator {
   }
 
   showNextButton() {
-    $('#translator-feedback-content__buttons__next').classList.remove('hidden');
+    $('#translator-buttons__next').classList.remove('hidden');
     this.nextButton.focus({
       preventScroll: true,
     });
   }
   hideNextButton() {
-    $('#translator-feedback-content__buttons__next').classList.add('hidden');
+    $('#translator-buttons__next').classList.add('hidden');
   }
 
   showSendButton() {
     this.sendInputButton.classList.remove('hidden');
+  }
+  hideSendButton() {
+    this.sendInputButton.classList.add('hidden');
   }
 
   hideStartButton() {
@@ -46,40 +49,52 @@ export class KoalaTranslator {
   }
 
   async startTranslator() {
+    // Waiting for api response
     this.hideNextButton();
     const existStartButton = Boolean($("#start-translator-btn"));
     if (existStartButton) {
       this.startButton.textContent = 'Loading...';
       this.startButton.disabled = true;
     }
-    const plainResponse = await getKoalaTranslation();
-    
-    log(this);
 
-    if (existStartButton) {
-      this.hideStartButton();
-    }
-    this.showSendButton();
-
-    // extract spanish sentence and english translations from API response
-    const [randomSpanishSentence, translationsList] = (
-      plainResponse.trim().split(/\nEnglish translation:\s?\n/im)
-    );
-    
-    this.spanishSentence = randomSpanishSentence;
-    this.textToTranslateGlobe.textContent = this.spanishSentence;
+    try {
+      const plainResponse = await getKoalaTranslation();
+      
+      // API response received
+      log(this);
+      this.showSendButton();
+      this.sendInputButton.disabled = Boolean(this.writableInput.textContent.trim() === '');
+      if (existStartButton) {
+        this.hideStartButton();
+      }
   
-    this.englishTranslations = translationsList.split('\n')
-      .map((line) => {
-        if (!line.endsWith('.')) {
-          return line.slice(1, line.length).trim();
-        }
-        return line.slice(1, line.length - 1).trim();
-      });
+      // extract spanish sentence and english translations from API response
+      const [randomSpanishSentence, translationsList] = (
+        plainResponse.trim().split(/\nEnglish translation:\s?\n/im)
+      );
+      
+      this.spanishSentence = randomSpanishSentence;
+      this.textToTranslateGlobe.textContent = this.spanishSentence;
+    
+      this.englishTranslations = translationsList.split('\n')
+        .map((line) => {
+          if (!line.endsWith('.')) {
+            return line.slice(1, line.length).trim();
+          }
+          return line.slice(1, line.length - 1).trim();
+        });
+    }
+    catch (error) {
+      this.startButton.textContent = 'Reintentar';
+      console.error({error});
+      this.textToTranslateGlobe.textContent = 'Vaya... ha habido un error con la API de OpenAI.\n\n' +
+        error;
+      this.startButton.disabled = false;
+    }
   }
 
   checkTranslatedUserInput() {
-    this.sendInputButton.disabled = true;
+    this.hideSendButton();
     let userInput = this.writableInput.textContent.trim();
     if (!userInput) return;
     if (userInput.endsWith('.')) {

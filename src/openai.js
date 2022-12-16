@@ -18,6 +18,10 @@ export async function openaiRequest(requestBody) {
     body: JSON.stringify(requestBody)
   });
   const data = await openaiResponse.json();
+  if (data.error) {
+    log('OpenAI error:', data.error);
+    throw new Error(data.error.message);
+  }
   return data;
 }
 
@@ -85,5 +89,8 @@ export async function getKoalaTranslation() {
     "max_tokens": OPEN_AI_MAX_TOKENS,
   });
 
-  return plainResponse.choices[0].text;
+  if (!plainResponse?.choices?.length) {
+    return null;
+  }
+  return plainResponse?.choices[0]?.text;
 }

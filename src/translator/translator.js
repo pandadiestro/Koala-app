@@ -87,8 +87,9 @@ export class KoalaTranslator {
     catch (error) {
       this.startButton.textContent = 'Reintentar';
       console.error({error});
-      this.textToTranslateGlobe.textContent = 'Vaya... ha habido un error con la API de OpenAI.\n\n' +
-        error;
+      this.textToTranslateGlobe.textContent = (
+        'Vaya... ha habido un error con la API de OpenAI.\n\n' + error
+      )
       this.startButton.disabled = false;
     }
   }

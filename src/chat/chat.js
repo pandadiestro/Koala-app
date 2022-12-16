@@ -1,7 +1,7 @@
 import { showFeedbackDialog } from './feedbackdialogs';
 import { conversationWithKoala } from './main';
-import { getKoalaPunctuation, sendToKoala } from '../openai';
-import { $, log, scrollToBottom } from '../utils';
+import { getKoalaFeedback, sendToKoala } from '../openai';
+import { $, log, scrollToBottom, getKoalaReactionEmoteURL } from '../utils';
 
 export const chatInput = $("#message-input");
 export const chatContainer = $("#messages-container");
@@ -48,45 +48,47 @@ export class Conversation {
 // HTML element that represents a chat message
 //  it has an image if it's from Koala
 export function chatMessageElement(messageInput, from) {
-  const element = document.createElement("div");
-  element.classList.add("chat-message");
-  element.classList.add(from);
+  const chatElement = document.createElement("div");
+  chatElement.classList.add("chat-message");
+  chatElement.classList.add(from);
 
   if (from === "koala") {
     const image = document.createElement("img");
     image.src = `/koala.png`;
     image.width = 40;
     image.height = 40;
-    element.appendChild(image);
+    chatElement.appendChild(image);
   }
   if (from === "user") {
     const seeFeedbackButton = document.createElement("button");
-    getKoalaPunctuation(messageInput).then((punctuation) => {
-      seeFeedbackButton.textContent = "👀";
-      seeFeedbackButton.classList.add("see-feedback-btn");
-      seeFeedbackButton.addEventListener("click", () => {
-        showFeedbackDialog(messageInput, punctuation);
-      });
-      element.appendChild(seeFeedbackButton);
-      if (punctuation.includes("/") && !punctuation.includes("(")) {
-        const score = Number(punctuation.split("/")[0]);
+    getKoalaFeedback(messageInput).then((feedback) => {
+      chatElement.appendChild(seeFeedbackButton);
+      let score = 0;
+      if (feedback.includes("/") && !feedback.includes("(")) {
+        score = Number(feedback.split("/")[0]);
         if (!Number.isNaN(score)) {
           conversationWithKoala.updateScores(score);
         }
       }
       else {
-        const score = Number(punctuation.slice(1, -1).split("/")[0]);
+        score = Number(feedback.slice(1, -1).split("/")[0]);
         if (!Number.isNaN(score)) {
           conversationWithKoala.updateScores(score);
         }
       }
+      seeFeedbackButton.textContent = `${score}/100`;
+      seeFeedbackButton.classList.add("see-feedback-btn");
+      seeFeedbackButton.style.backgroundImage = `url(${getKoalaReactionEmoteURL(score)}`;
+      seeFeedbackButton.addEventListener("click", () => {
+        showFeedbackDialog(messageInput, feedback);
+      });
     });
   }
   const messagContent = document.createElement("div");
   messagContent.classList.add("content");
   messagContent.textContent = messageInput;
-  element.appendChild(messagContent);
-  return element;
+  chatElement.appendChild(messagContent);
+  return chatElement;
 }
 
 function appendMessageElement(messageInput, from) {

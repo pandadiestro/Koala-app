@@ -51,7 +51,7 @@ export async function sendToKoala(fullConversation) {
   return openaiResponse.choices[0].text;
 }
 
-export async function getKoalaPunctuation(message) {
+export async function getKoalaFeedback(message) {
   const openaiResponse = await openaiRequest({
     "model": OPENAI_MODEL_GPT3,
     "prompt": KOALA_PUNCTUATION_PROMPT(message),

@@ -60,8 +60,11 @@ export class KoalaTranslator {
       this.hideStartButton();
     }
     this.showSendButton();
-  
-    const [randomSpanishSentence, translationsList] = plainResponse.trim().split(/\nEnglish translation:\s?\n/im);
+
+    // extract spanish sentence and english translations from API response
+    const [randomSpanishSentence, translationsList] = (
+      plainResponse.trim().split(/\nEnglish translation:\s?\n/im)
+    );
     
     this.spanishSentence = randomSpanishSentence;
     this.textToTranslateGlobe.textContent = this.spanishSentence;
@@ -73,13 +76,15 @@ export class KoalaTranslator {
         }
         return line.slice(1, line.length - 1).trim();
       });
-  
-    // log(this.englishTranslations);
   }
 
   checkTranslatedUserInput() {
     this.sendInputButton.disabled = true;
-    const userInput = this.writableInput.textContent.trim();
+    let userInput = this.writableInput.textContent.trim();
+    if (!userInput) return;
+    if (userInput.endsWith('.')) {
+      userInput = userInput.slice(0, -1);
+    }
     
     const matched = this.englishTranslations.some((translation) => {
       return userInput.toLowerCase() === translation.toLowerCase();
@@ -98,9 +103,9 @@ export class KoalaTranslator {
       wordElement.classList.add('word');
       wordElement.dataset.index = i;
 
+      // Animate each word
       window.setTimeout(() => {
         if (this.englishTranslations.some((translation) => {
-          log('comparing', word, translation.split(" ")[i]);
           return word.toLowerCase() === translation.split(" ")[i]?.toLowerCase();
         })) {
           wordElement.style.color = 'darkgreen';
@@ -118,7 +123,7 @@ export class KoalaTranslator {
     window.setTimeout(() => {
       // TODO: update this
       // show possible translations
-      $('#translator-feedback-content__text p').innerHTML = '<strong>Posibles traducciones:</strong>\n\n'
+      $('#translator-feedback-content__text p').innerHTML = '<strong>Posibles traducciones:</strong>\n\n';
       $('#translator-feedback-content__text p').innerHTML += this.englishTranslations.join('\n');
       this.showNextButton();
       $('#translator-feedback-content').classList.remove('hidden');
@@ -129,6 +134,5 @@ export class KoalaTranslator {
     }, 300 * userInputWords.length); // total time of animation
 
     log({userInput});
-
   }
 }

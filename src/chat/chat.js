@@ -1,7 +1,7 @@
 import { showFeedbackDialog } from './feedbackdialogs';
 import { conversationWithKoala } from './main';
-import { getKoalaPunctuation, sendToKoala } from './openai';
-import { $, scrollToBottom } from './utils';
+import { getKoalaPunctuation, sendToKoala } from '../openai';
+import { $, scrollToBottom } from '../utils';
 
 export const chatInput = $("#message-input");
 export const chatContainer = $("#messages-container");

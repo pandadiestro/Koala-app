@@ -1,7 +1,7 @@
 import { chatContainer, chatInput, Conversation } from './chat';
-import { $ } from './utils';
-import './voice';
 import './feedbackdialogs';
+import { $ } from '../utils';
+import '../voice';
 
 export const conversationWithKoala = new Conversation();
 

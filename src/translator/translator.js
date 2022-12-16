@@ -1,8 +1,8 @@
-import { $ } from './utils';
-import { getKoalaTranslation} from './openai';
-import confetti from 'canvas-confetti';
+import { $ } from '../utils';
+import { getKoalaTranslation} from '../openai';
+import { throwConfetti } from '../confetti';
 
-class KoalaTranslator {
+export class KoalaTranslator {
   constructor() {
     this.generating = false;
     this.spanishSentence = '';
@@ -13,42 +13,6 @@ class KoalaTranslator {
     this.textToTranslateGlobe = $('#text-to-translate-container__text');
     this.sendInputButton = $('#send-translator-input-btn');
     this.sendInputButton.disabled = true;
-
-    this.nextButton.addEventListener('click', () => {
-      this.clear();
-      this.startTranslator();
-    });
-
-    this.startButton.addEventListener('click', () => {
-      koalaTranslator.startTranslator();
-    });
-
-    this.writableInput.addEventListener('keydown', (e) => {
-      if (e.code === 'Enter') {
-        e.preventDefault(); // Prevents the addition of a new line
-        // If is not empty and is not shift+enter
-        if (e.target.textContent.trim() !== '' && !e.shiftKey) {
-          koalaTranslator.checkTranslatedUserInput();
-        }
-      }
-    });
-    this.writableInput.addEventListener('input', () => {
-      const inputContent = this.writableInput.textContent;
-      if (inputContent.trim() !== '') {
-        console.log('setting to false');
-        this.sendInputButton.disabled = false;
-      }
-      else {
-        console.log('setting to true');
-        this.sendInputButton.disabled = true;
-      }
-    });
-
-    $('#send-translator-input-btn').addEventListener('click', (e) => {
-      if (this.writableInput.textContent.trim() !== '') {
-        koalaTranslator.checkTranslatedUserInput();
-      }
-    });
   }
 
   clear() {
@@ -167,29 +131,4 @@ class KoalaTranslator {
     console.log({userInput});
 
   }
-}
-
-const koalaTranslator = new KoalaTranslator();
-
-// https://stackoverflow.com/a/12028136/18114046
-$('#translator-input-writable').addEventListener("paste", function(e) {
-  // cancel paste
-  e.preventDefault();
-
-  // get text representation of clipboard
-  const text = (e.originalEvent || e).clipboardData.getData('text/plain');
-
-  // insert text manually
-  document.execCommand("insertText", false, text);
-});
-
-function throwConfetti() {
-  confetti.create($('#confetti-canvas'), {
-    resize: true,
-    useWorker: true,
-  })({
-    particleCount: 100,
-    disableForReducedMotion: true,
-    spread: 70,
-  });
 }

@@ -2,7 +2,7 @@
 // text-davinci-003 (inglés avanzado)
 // text-ada-001 (inglés medio)
 
-import { log } from "./logger";
+import { log } from "./utils";
 
 export const OPENAI_MODEL_GPT2 = 'text-davinci-002';
 export const OPENAI_MODEL_GPT3 = 'text-davinci-003';

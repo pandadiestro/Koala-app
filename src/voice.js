@@ -1,5 +1,5 @@
 import annyang from 'annyang';
-import { chatInput } from './chat';
+import { chatInput } from './chat/chat';
 import { $, log } from './utils';
 
 export let chatMicListening = false;

@@ -8,28 +8,37 @@ export class KoalaTranslator {
     this.spanishSentence = '';
     this.englishTranslations = [];
     this.writableInput = $('#translator-input-writable');
+    this.textToTranslateGlobe = $('#text-to-translate-container__text');
+    // Buttons
     this.startButton = $('#start-translator-btn');
     this.nextButton = $('#translator-buttons__next');
-    this.textToTranslateGlobe = $('#text-to-translate-container__text');
+    this.tryAgainButton = $('#translator-buttons__try-again');
     this.sendInputButton = $('#translator-buttons__send');
     this.sendInputButton.disabled = true;
   }
 
-  clear() {
-    $('#translator-feedback-content').classList.add('hidden');
-    this.textToTranslateGlobe.textContent = '...';
-    this.writableInput.classList.remove('showing-result');
-    this.writableInput.textContent = '';
-    this.writableInput.focus();
-    this.spanishSentence = '';
-    this.englishTranslations = [];
+  clear(mode = 'reset') {
+    if (mode === 'reset' || mode === 'try-again') {
+      $('#translator-feedback-content').classList.add('hidden');
+      this.hideNextButton();
+      this.writableInput.classList.remove('showing-result');
+      this.writableInput.focus();
+      this.writableInput.textContent = '';
+    }
+    if (mode === 'try-again') {
+      this.showSendButton();
+      this.hideTryAgainButton();
+    }
+    if (mode === 'reset') {
+      this.textToTranslateGlobe.textContent = '...';
+      this.hideTryAgainButton();
+      this.spanishSentence = '';
+      this.englishTranslations = [];
+    }
   }
 
   showNextButton() {
     $('#translator-buttons__next').classList.remove('hidden');
-    this.nextButton.focus({
-      preventScroll: true,
-    });
   }
   hideNextButton() {
     $('#translator-buttons__next').classList.add('hidden');
@@ -37,20 +46,29 @@ export class KoalaTranslator {
 
   showSendButton() {
     this.sendInputButton.classList.remove('hidden');
+    this.sendInputButton.disabled = Boolean(this.writableInput.textContent.trim() === '');
   }
   hideSendButton() {
     this.sendInputButton.classList.add('hidden');
   }
 
+  showTryAgainButton() {
+    this.tryAgainButton.classList.remove('hidden');
+  }
+  hideTryAgainButton() {
+    this.tryAgainButton.classList.add('hidden');
+  }
+
   hideStartButton() {
     $("#start-translator-btn-container").remove();
     this.writableInput.textContent = '';
-    this.writableInput.focus();
+    this.writableInput.focus({
+      preventScroll: true,
+    });
   }
 
   async startTranslator() {
     // Waiting for api response
-    this.hideNextButton();
     const existStartButton = Boolean($("#start-translator-btn"));
     if (existStartButton) {
       this.startButton.textContent = 'Loading...';
@@ -63,7 +81,7 @@ export class KoalaTranslator {
       // API response received
       log(this);
       this.showSendButton();
-      this.sendInputButton.disabled = Boolean(this.writableInput.textContent.trim() === '');
+      this.hideTryAgainButton();
       if (existStartButton) {
         this.hideStartButton();
       }
@@ -141,11 +159,21 @@ export class KoalaTranslator {
       // show possible translations
       $('#translator-feedback-content__text p').innerHTML = '<strong>Posibles traducciones:</strong>\n\n';
       $('#translator-feedback-content__text p').innerHTML += this.englishTranslations.join('\n');
-      this.showNextButton();
       $('#translator-feedback-content').classList.remove('hidden');
-
+      this.showNextButton();
+      this.nextButton.focus({
+        preventScroll: true,
+      });
+      
       if (matched) {
         throwConfetti();
+      }
+      else {
+        this.tryAgainButton.disabled = false;
+        this.showTryAgainButton();
+        this.tryAgainButton.focus({
+          preventScroll: true,
+        });
       }
     }, 300 * userInputWords.length); // total time of animation
 

@@ -33,14 +33,20 @@ koalaTranslator.writableInput.addEventListener('input', () => {
   }
 });
 
-$('#translator-buttons__send').addEventListener('click', (e) => {
+koalaTranslator.sendInputButton.addEventListener('click', (e) => {
   if (koalaTranslator.writableInput.textContent.trim() !== '') {
     koalaTranslator.checkTranslatedUserInput();
   }
 });
 
+koalaTranslator.tryAgainButton.addEventListener('click', () => {
+  koalaTranslator.clear('try-again');
+  koalaTranslator.tryAgainButton.disabled = true;
+});
+
+// Handle paste in editable-content div
 // https://stackoverflow.com/a/12028136/18114046
-$('#translator-input-writable').addEventListener("paste", function(e) {
+koalaTranslator.writableInput.addEventListener("paste", function(e) {
   // cancel paste
   e.preventDefault();
 

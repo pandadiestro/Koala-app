@@ -2,7 +2,7 @@ import { showFeedbackDialog } from './feedbackdialogs';
 import { conversationWithKoala } from './main';
 import { getKoalaFeedback, sendToKoala } from '../openai';
 import { $, log, scrollToBottom, getKoalaReactionEmoteURL } from '../utils';
-import { speechSentence, speechSupported } from '../speech';
+import { isSpeechSupported, speechSentence } from '../speech';
 
 export const chatInput = $("#message-input");
 export const chatContainer = $("#messages-container");
@@ -20,9 +20,9 @@ export class Conversation {
     this.scores = [];
   }
 
-  addMessage(content, from) {
+  async addMessage(content, from) {
     this.messages.push(new Message(content, from));
-    appendMessageElement(content, from);
+    await appendMessageElement(content, from);
     scrollToBottom(chatContainer);
   }
 
@@ -65,14 +65,14 @@ export class Conversation {
 //    <button class="see-feedback-btn">50/100</button>
 //  </div>
 //
-export function chatMessageElement(messageInput, from) {
-  const chatMessageElement = document.createElement("div");
+export async function chatMessageElement(messageInput, from) {
+  const messageElement = document.createElement("div");
   const messagContentElement = document.createElement("div");
   const messageGlobeElement = document.createElement("div");
-  chatMessageElement.classList.add("chat-message");
+  messageElement.classList.add("chat-message");
   messagContentElement.classList.add("content");
   messageGlobeElement.classList.add("chat-message__globe");
-  chatMessageElement.classList.add(from);
+  messageElement.classList.add(from);
   messagContentElement.textContent = messageInput;
 
   if (from === "koala") {
@@ -80,9 +80,10 @@ export function chatMessageElement(messageInput, from) {
     image.src = `/koala.png`;
     image.width = 40;
     image.height = 40;
-    chatMessageElement.appendChild(image);
+    messageElement.appendChild(image);
 
-    if (speechSupported) {
+    const speechAPISupported = await isSpeechSupported();
+    if (speechAPISupported) {
       const speechButton = document.createElement("button");
       speechButton.classList.add("speech-btn");
       speechButton.textContent = "🔊";
@@ -95,7 +96,7 @@ export function chatMessageElement(messageInput, from) {
   if (from === "user") {
     const seeFeedbackButton = document.createElement("button");
     getKoalaFeedback(messageInput).then((feedback) => {
-      chatMessageElement.appendChild(seeFeedbackButton);
+      messageElement.appendChild(seeFeedbackButton);
       let score = 0;
       if (feedback.includes("/") && !feedback.includes("(")) {
         score = Number(feedback.split("/")[0]);
@@ -118,12 +119,12 @@ export function chatMessageElement(messageInput, from) {
     });
   }
   messageGlobeElement.appendChild(messagContentElement);
-  chatMessageElement.appendChild(messageGlobeElement);
-  return chatMessageElement;
+  messageElement.appendChild(messageGlobeElement);
+  return messageElement;
 }
 
-function appendMessageElement(messageInput, from) {
+async function appendMessageElement(messageInput, from) {
   chatContainer.appendChild(
-    chatMessageElement(messageInput, from)
+    await chatMessageElement(messageInput, from)
   );
 }

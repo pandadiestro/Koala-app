@@ -66,7 +66,7 @@ export async function getKoalaFeedback(message) {
 // Translator 🐨🐨🐨 =================================
 
 const KOALA_TRANSLATOR_PROMPT = `
-Generate a random Spanish sentence, and provide all uts possible different exact English translations (in the following format):
+Generate a random Spanish sentence, and provide all its possible different exact English translations, in the following format:
 
 Spanish sentence: Cuida a mi amiga Carmen (quien es una bombero real).
 English translation:

@@ -126,8 +126,8 @@ export class KoalaTranslator {
 
   showAnswers() {
     // TODO: update this
-    // show possible translations
-    $('#translator-feedback-content__text p').innerHTML = '<strong>Posibles traducciones:</strong>\n\n';
+    // show possible translations to user
+    $('#translator-feedback-content__text p').innerHTML = '<strong>Posibles traducciones:</strong>\n';
     $('#translator-feedback-content__text p').innerHTML += this.englishTranslations.join('\n');
     $('#translator-feedback-content').classList.remove('hidden');
     this.showNextButton();

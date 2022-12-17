@@ -1,16 +1,37 @@
 import { KoalaTranslator } from "./translator";
-import { $, log } from "../utils";
 
 const koalaTranslator = new KoalaTranslator();
 
+// =================== Buttons ===================
+
 koalaTranslator.nextButton.addEventListener('click', () => {
-  koalaTranslator.clear();
+  koalaTranslator.clear('reset');
   koalaTranslator.startTranslator();
 });
 
 koalaTranslator.startButton.addEventListener('click', () => {
   koalaTranslator.startTranslator();
 });
+
+koalaTranslator.sendInputButton.addEventListener('click', (e) => {
+  if (koalaTranslator.writableInput.textContent.trim() !== '') {
+    koalaTranslator.checkTranslatedUserInput();
+    koalaTranslator.revealAnswerButton.disabled = true;
+  }
+});
+
+koalaTranslator.tryAgainButton.addEventListener('click', () => {
+  koalaTranslator.clear('try-again');
+  koalaTranslator.tryAgainButton.disabled = true;
+});
+
+koalaTranslator.revealAnswerButton.addEventListener('click', () => {
+  koalaTranslator.revealAnswerButton.disabled = true;
+  koalaTranslator.revealAnswerButton.textContent = 'Revealed';
+  koalaTranslator.showAnswers();
+});
+
+// =================== Input ===================
 
 koalaTranslator.writableInput.addEventListener('keydown', (e) => {
   if (e.code === 'Enter') {
@@ -21,27 +42,15 @@ koalaTranslator.writableInput.addEventListener('keydown', (e) => {
     }
   }
 });
+
 koalaTranslator.writableInput.addEventListener('input', () => {
   const inputContent = koalaTranslator.writableInput.textContent;
   if (inputContent.trim() !== '') {
-    log('setting to false');
     koalaTranslator.sendInputButton.disabled = false;
   }
   else {
-    log('setting to true');
     koalaTranslator.sendInputButton.disabled = true;
   }
-});
-
-koalaTranslator.sendInputButton.addEventListener('click', (e) => {
-  if (koalaTranslator.writableInput.textContent.trim() !== '') {
-    koalaTranslator.checkTranslatedUserInput();
-  }
-});
-
-koalaTranslator.tryAgainButton.addEventListener('click', () => {
-  koalaTranslator.clear('try-again');
-  koalaTranslator.tryAgainButton.disabled = true;
 });
 
 // Handle paste in editable-content div

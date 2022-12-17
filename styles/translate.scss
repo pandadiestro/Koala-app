@@ -20,7 +20,7 @@
   align-items: center;
   margin: 0 auto;
   border-bottom: 1px solid #e5e5e5;
-  padding: 1rem 0.5rem 0 0.5rem;
+  padding: 1rem 0.5rem 0 0;
   position: relative;
   z-index: 2;
   max-width: var(--translator-app-max-width);
@@ -51,6 +51,26 @@
     border-bottom: 15px solid transparent;
     left: -30px;
     top: -1px;
+  }
+  #reveal-answer-btn-container {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0;
+
+    button {
+      background: none;
+      font-size: 0.6rem;
+      font-weight: 500;
+      text-decoration: underline;
+      margin: 0;
+      padding: 0;
+      line-height: 0.8;
+      padding-top: 5px;
+      margin-bottom: -2px;
+      border: none;
+      outline: none;
+    }
   }
 }
 

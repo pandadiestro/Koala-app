@@ -10,6 +10,7 @@ export class KoalaTranslator {
     this.writableInput = $('#translator-input-writable');
     this.textToTranslateGlobe = $('#text-to-translate-container__text');
     // Buttons
+    this.revealAnswerButton = $('#reveal-answer-btn');
     this.startButton = $('#start-translator-btn');
     this.nextButton = $('#translator-buttons__next');
     this.tryAgainButton = $('#translator-buttons__try-again');
@@ -59,6 +60,14 @@ export class KoalaTranslator {
     this.tryAgainButton.classList.add('hidden');
   }
 
+  showrevealAnswerButton() {
+    this.revealAnswerButton.classList.remove('hidden');
+    this.revealAnswerButton.textContent = 'Show answer';
+  }
+  hideRevealAnswerButton() {
+    this.revealAnswerButton.classList.add('hidden');
+  }
+
   hideStartButton() {
     $("#start-translator-btn-container").remove();
     this.writableInput.textContent = '';
@@ -74,6 +83,7 @@ export class KoalaTranslator {
       this.startButton.textContent = 'Loading...';
       this.startButton.disabled = true;
     }
+    this.hideRevealAnswerButton();
 
     try {
       const plainResponse = await getKoalaTranslation();
@@ -85,6 +95,8 @@ export class KoalaTranslator {
       if (existStartButton) {
         this.hideStartButton();
       }
+      this.showrevealAnswerButton();
+      this.revealAnswerButton.disabled = false;
   
       // extract spanish sentence and english translations from API response
       const [randomSpanishSentence, translationsList] = (
@@ -112,8 +124,23 @@ export class KoalaTranslator {
     }
   }
 
+  showAnswers() {
+    // TODO: update this
+    // show possible translations
+    $('#translator-feedback-content__text p').innerHTML = '<strong>Posibles traducciones:</strong>\n\n';
+    $('#translator-feedback-content__text p').innerHTML += this.englishTranslations.join('\n');
+    $('#translator-feedback-content').classList.remove('hidden');
+    this.showNextButton();
+    this.nextButton.focus({
+      preventScroll: true,
+    });
+  }
+
   checkTranslatedUserInput() {
     this.hideSendButton();
+    if (this.revealAnswerButton.textContent !== 'Revealed') {
+      this.hideRevealAnswerButton();
+    }
     let userInput = this.writableInput.textContent.trim();
     if (!userInput) return;
     if (userInput.endsWith('.')) {
@@ -155,16 +182,7 @@ export class KoalaTranslator {
 
     // Fired when results animation is done
     window.setTimeout(() => {
-      // TODO: update this
-      // show possible translations
-      $('#translator-feedback-content__text p').innerHTML = '<strong>Posibles traducciones:</strong>\n\n';
-      $('#translator-feedback-content__text p').innerHTML += this.englishTranslations.join('\n');
-      $('#translator-feedback-content').classList.remove('hidden');
-      this.showNextButton();
-      this.nextButton.focus({
-        preventScroll: true,
-      });
-      
+      this.showAnswers();
       if (matched) {
         throwConfetti();
       }

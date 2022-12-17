@@ -4,9 +4,15 @@
 
 import { log } from "./utils";
 
-export const OPENAI_MODEL_GPT2 = 'text-davinci-002';
-export const OPENAI_MODEL_GPT3 = 'text-davinci-003';
-export const OPEN_AI_MAX_TOKENS = 1000;
+export const OPENAI_GPT2 = {
+  mmodel: 'text-davinci-002',
+  max_tokens: 2048
+}
+export const OPENAI_GPT3 = {
+  model: 'text-davinci-003',
+  max_tokens: 400
+}
+export const RESPONSE_MAX_TOKENS = 1000;
 
 export async function openaiRequest(requestBody) {
   const openaiResponse = await fetch("https://api.openai.com/v1/completions", {
@@ -28,9 +34,10 @@ export async function openaiRequest(requestBody) {
 // Chatbot 🐨🐨🐨 =================================
 
 export const KOALA_CHAT_PROMPT = 'Koala is a talkative and sarcastic chatbot to talk about anything, he is funny and always have a topic of conversation.'
-  + ' (answers english only):\n\n'
+  + ' (answers english only):\n\n(algunos mensajes fueron omitidos)'
+
 export const KOALA_PUNCTUATION_PROMPT = (message) => (
-  'Koala is a friendly chatbot that is going to analyze OBJECTIVELY (without paying atention to the user intents) in a scale from'
+  'Analyze OBJECTIVELY (without paying atention to the user intents) in a scale from'
   + ' 0 (incomprehensible sentence) to 100 (regular written english)'
   + ` how well my english grammar and spelling are after the following phrase: ${message}`
   + '\n\nscore (in the format n/100) and recommendations: '
@@ -41,10 +48,10 @@ export const KOALA_CHAT_TEMPERATURE = 0.7;
 export async function sendToKoala(fullConversation) {
 
   const openaiResponse = await openaiRequest({
-      "model": OPENAI_MODEL_GPT3,
+      "model": OPENAI_GPT3.model,
       "prompt": `${KOALA_CHAT_PROMPT}\n` + fullConversation,
       "temperature": KOALA_CHAT_TEMPERATURE,
-      "max_tokens": OPEN_AI_MAX_TOKENS,
+      "max_tokens": RESPONSE_MAX_TOKENS,
       "stop": ["\nkoala:", "\nuser:"]
   });
   log(fullConversation, openaiResponse);
@@ -53,11 +60,11 @@ export async function sendToKoala(fullConversation) {
 
 export async function getKoalaFeedback(message) {
   const openaiResponse = await openaiRequest({
-    "model": OPENAI_MODEL_GPT3,
+    "model": OPENAI_GPT3.model,
     "prompt": KOALA_PUNCTUATION_PROMPT(message),
 
     "temperature": KOALA_CHAT_TEMPERATURE,
-    "max_tokens": OPEN_AI_MAX_TOKENS,
+    "max_tokens": RESPONSE_MAX_TOKENS,
   });
 
   return openaiResponse.choices[0].text;
@@ -83,10 +90,10 @@ export const KOALA_TRANSLATOR_TEMPERATURE = 0.95;
 
 export async function getKoalaTranslation() {
   const plainResponse = await openaiRequest({
-    "model": OPENAI_MODEL_GPT3,
+    "model": OPENAI_GPT3.model,
     "prompt": KOALA_TRANSLATOR_PROMPT,
     "temperature": KOALA_TRANSLATOR_TEMPERATURE,
-    "max_tokens": OPEN_AI_MAX_TOKENS,
+    "max_tokens": RESPONSE_MAX_TOKENS,
   });
 
   if (!plainResponse?.choices?.length) {

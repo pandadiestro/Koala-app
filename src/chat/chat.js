@@ -1,6 +1,6 @@
 import { showFeedbackDialog } from './feedbackdialogs';
 import { conversationWithKoala } from './main';
-import { getKoalaFeedback, sendToKoala } from '../openai';
+import { RESPONSE_MAX_TOKENS, KOALA_CHAT_PROMPT, OPENAI_GPT3, getKoalaFeedback, sendToKoala } from '../openai';
 import { $, log, scrollToBottom, getKoalaReactionEmoteURL } from '../utils';
 import { isSpeechSupported, speechSentence } from '../speech';
 
@@ -27,13 +27,26 @@ export class Conversation {
   }
 
   allMessages() {
-    return this.messages.map((message) => {
+    const fullConversation = this.messages.map((message) => {
       return `${message.from}: ${message.message}`;
-    }).join('\n');
+    }).join('\n')
+
+    // Total prompt length
+    const promptLength = KOALA_CHAT_PROMPT.length + fullConversation.length;
+
+    // Slice the prompt if it exceeds the max API length
+    if (promptLength >= OPENAI_GPT3.max_tokens) {
+      const difference = promptLength - OPENAI_GPT3.max_tokens;
+      const slicedConversation = fullConversation.slice(fullConversation.indexOf('\n', difference) + 1);
+      log(`chat overflow (${fullConversation.length}):`, { fullConversation });
+      log(`shortened (${slicedConversation.length}):`, { slicedConversation });
+      return slicedConversation;
+    }
+    return fullConversation;
   }
 
   updateScores(score) {
-    log( { score } );
+    log({ score });
     this.scores.push(score);
     const averageScore = this.scores.reduce((a, b) => a + b, 0) / this.scores.length;
     $("#chat-dashboard__fluency").textContent = Math.round(averageScore);

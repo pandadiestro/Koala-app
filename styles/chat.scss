@@ -131,23 +131,37 @@
   position: relative;
   margin-top: 1.5rem;
 
-  .content {
-    display: flex;
-    align-items: center;
+  .chat-message__globe {
     min-width: 160px;
     max-width: 650px;
-    min-height: 30px;
-    border-radius: 10px;
     border-bottom: 2px solid #949598;
     border-right: 2px solid #949598;
-    padding: 8px 10px;
-    overflow-wrap: break-word;
-    word-break: break-word;
     transition: max-width 0.25s;
-  }
-  &.chat-message.user {
-    justify-content: end;
+    min-height: 30px;
+    border-radius: 10px;
+
+    .speech-btn {
+      position: absolute;
+      padding: 2px 4px 2px 6px;
+      align-self: flex-start;
+      right: 8px;
+      font-size: 12px;
+      bottom: -10px;
+      background-color: #f1f1ef;
+    }
     .content {
+      display: flex;
+      align-items: center;
+      padding: 8px 10px;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+  }
+
+  &.user {
+    justify-content: flex-end;
+
+    .chat-message__globe {
       background-color: #F8F5C0;
     }
 
@@ -218,10 +232,11 @@
       }
     }
   }
-  &.chat-message.koala {
+  &.koala {
     align-self: flex-start;
 
-    .content {
+    .chat-message__globe {
+      display: flex;
       background-color: #FEFEFE;
     }
   }
@@ -230,25 +245,30 @@
 @media only screen and (max-width: 1200px) {
   :root {
     --chat-padding-horizontal: 80px;
+    .chat-message .chat-message__globe {
+      max-width: 400px;
+    }
   }
 }
 @media only screen and (max-width: 800px) {
-  .chat-message .content {
-    max-width: 400px;
+  :root {
+    --chat-padding-horizontal: 40px;
+    font-size: 0.9rem;
+  }
+  .chat-message .chat-message__globe {
+    max-width: 350px;
   }
   #app-sidebar {
     min-width: 0 !important;
     max-width: 0 !important;
   }
-  :root {
-    --chat-padding-horizontal: 40px;
-  }
 }
 @media only screen and (max-width: 600px) {
-  .chat-message .content {
-    max-width: 300px;
+  .chat-message .chat-message__globe {
+    max-width: 260px;
   }
   :root {
     --chat-padding-horizontal: 20px;
+    font-size: 0.85rem;
   }
 }

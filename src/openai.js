@@ -34,7 +34,7 @@ export async function openaiRequest(requestBody) {
 // Chatbot 🐨🐨🐨 =================================
 
 export const KOALA_CHAT_PROMPT = 'Koala is a talkative and sarcastic chatbot to talk about anything, he is funny and always have a topic of conversation.'
-  + ' (answers english only):\n\n(algunos mensajes fueron omitidos)'
+  + ' (answers english only):\n\n'
 
 export const KOALA_PUNCTUATION_PROMPT = (message) => (
   'Analyze OBJECTIVELY (without paying atention to the user intents) in a scale from'

@@ -31,8 +31,9 @@ export class Conversation {
       return `${message.from}: ${message.message}`;
     }).join('\n')
 
+    const overflow_message = '(algunos mensajes fueron omitidos)';
     // Total prompt length
-    const promptLength = KOALA_CHAT_PROMPT.length + fullConversation.length;
+    const promptLength = KOALA_CHAT_PROMPT.length + fullConversation.length + overflow_message.length;
 
     // Slice the prompt if it exceeds the max API length
     if (promptLength >= OPENAI_GPT3.max_tokens) {
@@ -40,7 +41,7 @@ export class Conversation {
       const slicedConversation = fullConversation.slice(fullConversation.indexOf('\n', difference) + 1);
       log(`chat overflow (${fullConversation.length}):`, { fullConversation });
       log(`shortened (${slicedConversation.length}):`, { slicedConversation });
-      return slicedConversation;
+      return `${overflow_message}\n${slicedConversation}`;
     }
     return fullConversation;
   }

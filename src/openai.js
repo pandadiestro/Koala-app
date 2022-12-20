@@ -37,10 +37,17 @@ export const KOALA_CHAT_PROMPT = 'Koala is a talkative and sarcastic chatbot to 
   + ' (answers english only):\n\n'
 
 export const KOALA_PUNCTUATION_PROMPT = (message) => (
-  'Analyze OBJECTIVELY (without paying atention to the user intents) in a scale from'
-  + ' 0 (incomprehensible sentence) to 100 (regular written english)'
-  + ` how well my english grammar and spelling are after the following phrase: ${message}`
-  + '\n\nscore (in the format n/100) and recommendations: '
+  'Analyze OBJECTIVELY (without paying atention to the user intents) in a scale from 0 (incomprehensible sentence) to 100 (regular written english) how well my english grammar and spelling are:\n\n'
+  + '\nSentence: hi koala uwu i hate my life hehe. the spider spun it has web.\n'
+  + 'Feedback: 40/100. Debes mejorar en el uso de mayúsculas, en este caso, "I hate my life" es apropiado. El uso de emoticones es aceptado uwu. Pero revisa tu gramática, lo correcto es "the spider spun its web", para referirse a su telaraña.\n'
+  + '\nSentence: dasfajksd fjksadj kflajsdkfj jl\n'
+  + 'Feedback: 5/100. Entiendo la emoción, pero trata de agregar más contenido significativo a la conversación para hacerla más amena.\n'
+  + '\nSentence: I wan to be yours under the moonlight\n'
+  + 'Feedback: 100/100. La escritura y gramática están correctas y bien estructuradas, muy bien hecho.\n'
+  + '\nSentence: I hate you, don\'t look at my, you are bad. I don\'t want to watch you again anymore, I hate you.\n'
+  + 'Feedback: 70/100. Hay algunos errores notables en la gramática. Primero, para referirte a ti mismo en primera persona, usa "me" en vez de "my". Segundo, si bien es cierto "watch" y "see" tienen traducciones similares, "watch" es más apropiado para referirse a un espectáculo, mientras que "see" es más apropiado para referirse a una persu27"anymore" es incorrecto, la forma correcta es "anymore".\n'
+  + `\nSentence: ${message}\n`
+  + 'Feedback:'
 );
 
 export const KOALA_CHAT_TEMPERATURE = 0.7;
@@ -63,11 +70,11 @@ export async function getKoalaFeedback(message) {
     "model": OPENAI_GPT3.model,
     "prompt": KOALA_PUNCTUATION_PROMPT(message),
 
-    "temperature": KOALA_CHAT_TEMPERATURE,
+    "temperature": 0,
     "max_tokens": RESPONSE_MAX_TOKENS,
   });
 
-  return openaiResponse.choices[0].text;
+  return openaiResponse.choices[0].text?.trim();
 }
 
 // Translator 🐨🐨🐨 =================================

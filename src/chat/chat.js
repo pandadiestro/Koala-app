@@ -1,6 +1,6 @@
 import { showFeedbackDialog } from './feedbackdialogs';
 import { conversationWithKoala } from './main';
-import { RESPONSE_MAX_TOKENS, KOALA_CHAT_PROMPT, OPENAI_GPT3, getKoalaFeedback, sendToKoala } from '../openai';
+import { KOALA_CHAT_PROMPT, OPENAI_GPT3, getKoalaFeedback, sendToKoala } from '../openai';
 import { $, log, scrollToBottom, getKoalaReactionEmoteURL } from '../utils';
 import { isSpeechSupported, speechSentence } from '../speech';
 
@@ -110,7 +110,6 @@ export async function chatMessageElement(messageInput, from) {
   if (from === "user") {
     const seeFeedbackButton = document.createElement("button");
     getKoalaFeedback(messageInput).then((feedback) => {
-      messageElement.appendChild(seeFeedbackButton);
       let score = 0;
       if (feedback.includes("/") && !feedback.includes("(")) {
         score = Number(feedback.split("/")[0]);
@@ -124,6 +123,7 @@ export async function chatMessageElement(messageInput, from) {
           conversationWithKoala.updateScores(score);
         }
       }
+      messageElement.appendChild(seeFeedbackButton);
       seeFeedbackButton.textContent = `${score}/100`;
       seeFeedbackButton.classList.add("see-feedback-btn");
       seeFeedbackButton.style.backgroundImage = `url(${getKoalaReactionEmoteURL(score)}`;

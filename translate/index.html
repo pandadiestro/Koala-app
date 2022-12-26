@@ -5,8 +5,8 @@
     <link rel="icon" type="image/svg+xml" href="/koala.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/styles/globals.css" />
-    <link rel="stylesheet" href="/styles/chat.scss" />
-    <title>Koala | Compañero de IA para aprender Inglés a tu ritmo</title>
+    <link rel="stylesheet" href="/styles/translate.scss" />
+    <title>Koala translate</title>
   </head>
   <body>
     <div id="app">
@@ -14,13 +14,13 @@
         <aside id="app-sidebar">
             <ul id="app-sidebar__options">
                 <img id="app-sidebar__koala-logo" src="/koala.png" alt="Koala image" height="100" width="100">
-                <li class="app-sidebar__option current">
+                <li class="app-sidebar__option">
                     <a href="/">Dashboard</a>
                 </li>
                 <li class="app-sidebar__option">
                     <a href="/chat/">Koala chat</a>
                 </li>
-                <li class="app-sidebar__option">
+                <li class="app-sidebar__option current">
                     <a href="/translate/">Translation trainer</a>
                 </li>
             </ul>
@@ -49,22 +49,47 @@
         </aside>
         <div id="app-wrapper">
             <header id="app-header">
-                <h1>🐨 Koala dashboard</h1>
+                <h1>🐨 Traduce con Koala</h1>
                 <h2>Compañero de IA para aprender Inglés a tu ritmo</h2>
             </header>
             <main>
-                <section>
-                    <h2>Para los usuarios de Koala</h2>
-                    <i>
-                        Como parte del desarrollo y como ingenieros, nos comprometemos a continuar con el desarrollo y mejoría del software/app Koala, implementado actualizaciones continuas del software, de modo que, ya sea para estudios futuros o para aplicaciones, siempre se entregue al cliente un producto de alta calidad y rendimiento. Al igual que el software, las futuras actualizaciones serán totalmente gratuitas.
-                    </i>
-                </section>
-                <section>
-                    Esta sección se encuentra en desarrollo, prueba <a href="/chat/">el chat de Koala</a> o <a href="/translate/">el traductor de Koala</a> mientras tanto 🐨.
-                </section>
+                <canvas id="confetti-canvas"></canvas>
+                <header id="translator-header">
+                    <div id="koala-teacher-img-container">
+                        <img src="/koala-teacher.png" alt="Koala image" height="220" width="240" />
+                    </div>
+                    <div>
+                        <div id="text-to-translate-container">
+                            <div>
+                                <p id="text-to-translate-container__text">¿Listo para traducir...?</p>
+                                <div id="reveal-answer-btn-container">
+                                    <button id="reveal-answer-btn" class="hidden">Show answer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+                <div id="translator-input-container">
+                    <div id="start-translator-btn-container">
+                        <button id="start-translator-btn" contenteditable="false">Empezar 🐨</button>
+                    </div>
+                    <div contenteditable id="translator-input-writable" class="translation-result" placeholder="Translate to English here!">
+                    </div>
+                </div>
+                <div id="translator-feedback">
+                    <div id="translator-feedback-content">
+                        <div id="translator-feedback-content__text"><p></p></div>
+                    </div> 
+                </div>
+                <ol id="translator-buttons">
+                    <button id="translator-buttons__send" class="hidden" type="submit">Send</button>
+                    <button id="translator-buttons__try-again" class="hidden">Try again!</button>
+                    <button id="translator-buttons__next" class="hidden">Next</button>
+                </ol>
             </main>
         </div>
       </div>
     </div>
+    <script type="module" src="/src/translator/main.js"></script>
   </body>
 </html>

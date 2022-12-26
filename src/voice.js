@@ -1,5 +1,6 @@
 import annyang from 'annyang';
-import { $ } from './utils';
+import { chatInput } from './chat/chat';
+import { $, log } from './utils';
 
 export let chatMicListening = false;
 
@@ -13,26 +14,27 @@ if (annyang) {
   });
 
   annyang.addCallback("start", () => {
-    console.log("Ha iniciado");
+    log("Ha iniciado");
   });
 
   annyang.addCallback("end", () => {
-    console.log("HA TERMINADO");
+    log("HA TERMINADO");
     chatMicListening = false;
   });
 
   annyang.addCallback("result", (input) => {
-    $("#message-input").value = input[0];
+    chatInput.value = input[0];
     annyang.abort();
   });
 
   window.setInterval(() => {
     annyang.isListening()
-      ? console.log("chatMicListening")
-      : console.log("not chatMicListening");
+      ? log("chatMicListening")
+      : log("not chatMicListening");
   }, 100);
 }
 else {
-  console.log("no funciona");
+  log("no funciona");
   micButton.disabled = true;
+  micButton.title = "Tu navegador no soporta esta funcionalidad 😿";
 }

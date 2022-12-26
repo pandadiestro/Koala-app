@@ -1,0 +1,188 @@
+:root {
+  --globe-bg-color: #f8f0e0;
+  --textarea-bg-color: #e4e2df;
+  --translator-app-max-width: 1000px;
+}
+
+@media only screen and (max-width: 1299px) {
+  :root {
+    --translator-app-max-width: 800px;
+  }
+}
+@media only screen and (max-width: 800px) {
+  :root {
+    --translator-app-max-width: 600px;
+  }
+}
+
+#translator-header {
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 1rem 0.5rem 0 0;
+  position: relative;
+  z-index: 2;
+  max-width: var(--translator-app-max-width);
+
+  #text-to-translate-container {
+    display: flex;
+    position: relative;
+    background-color: var(--globe-bg-color);
+    padding: 10px 15px;
+    margin-left: 1.5rem;
+    border-radius: 0 10px 10px 10px;
+    border: 1px solid #ccc;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.08) 1.95px 1.95px 1.6px;
+
+    #text-to-translate-container__listen-btn {
+      background: none;
+      padding: 0;
+      margin-right: 4px;
+    }
+    #text-to-translate-container__text {
+      margin: 0;
+      font-size: 1.2rem;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      white-space: pre-wrap;
+    }
+  }
+  #text-to-translate-container:before {
+    content: "";
+    position: absolute;
+    border-left: 15px solid transparent;
+    border-right: 15px solid var(--globe-bg-color);
+    border-top: 15px solid var(--globe-bg-color);
+    border-bottom: 15px solid transparent;
+    left: -30px;
+    top: -1px;
+  }
+  #reveal-answer-btn-container {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0;
+
+    button {
+      background: none;
+      font-size: 0.6rem;
+      font-weight: 500;
+      text-decoration: underline;
+      margin: 0;
+      padding: 0;
+      line-height: 0.8;
+      padding-top: 5px;
+      margin-bottom: -2px;
+      border: none;
+      outline: none;
+    }
+  }
+}
+
+#translator-input-container {
+  position: relative;
+  display: block;
+  margin: 0 auto;
+  resize: none;
+  max-width: var(--translator-app-max-width);
+  background-color: var(--textarea-bg-color);
+  font-size: 1.2rem;
+  font-family: monospace;
+  height: 200px;
+  width: 100%;
+  margin-top: 1rem;
+  
+  #translator-input-writable {
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+
+    &.showing-result {
+      width: 85%;
+      height: auto;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      -webkit-user-modify: read-only; // disable contenteditable
+      text-align: center;
+      box-shadow: none;
+  
+      transform: translate(-50%, -50%);
+
+      .word {
+        display: inline-block;
+        margin-right: 0.5rem;
+        word-break: break-word;
+      }
+    }
+    &:focus {
+      outline: none;
+      box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    }
+    &:empty:before{
+      content: attr(placeholder);
+      color:grey;
+      pointer-events: none;
+      font-style:italic;
+      display: block; /* For Firefox */
+    }
+  }
+
+
+  #start-translator-btn-container {
+    top: 0;
+    left: 0;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    
+    font-family: var(--app-default-font);
+  
+    #start-translator-btn {
+      font-size: 1.1rem;
+      font-weight: normal;
+      width: fit-content;
+      height: fit-content;
+    }
+  }
+  &#translator-input:focus {
+    outline: none;
+  }
+
+  &.translation-result {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+}
+
+#translator-feedback {
+  margin: 1rem auto 0 auto;
+
+  #translator-feedback-content__text {
+    white-space: pre;
+    text-align: left;
+    word-break: break-word;
+  }
+}
+#translator-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+#confetti-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}

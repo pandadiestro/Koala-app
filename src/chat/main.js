@@ -1,7 +1,7 @@
 import { chatContainer, chatInput, Conversation } from './chat';
-import { $ } from './utils';
-import './voice';
 import './feedbackdialogs';
+import { $ } from '../utils';
+import '../voice';
 
 export const conversationWithKoala = new Conversation();
 
@@ -10,7 +10,7 @@ const hideTutorial = () => {
   chatContainer.removeChild(tutorial);
 };
 
-// Tutorial screen has two buttons
+// Tutorial screen has two buttons:
 $('#chat-tutorial__start-talking-btn').addEventListener('click', () => {
   chatInput.focus();
 });
@@ -23,10 +23,11 @@ $('#chat-tutorial__make-koala-start-btn').addEventListener('click', async () => 
 // Messages submitted by the user
 $("#message-form").addEventListener("submit", async (e) => {
   e.preventDefault();
-  let userInput = chatInput.value;
-  if (userInput.trim() === '') {
+  let userInput = chatInput.value.trim();
+  if (userInput === '') {
     return;
   }
+  // Is the first message?
   if (conversationWithKoala.messages.length === 0) {
     hideTutorial();
   }
@@ -43,5 +44,6 @@ $("#message-form").addEventListener("submit", async (e) => {
   }
   finally {
     chatInput.disabled = false;
+    chatInput.focus();
   }
 });

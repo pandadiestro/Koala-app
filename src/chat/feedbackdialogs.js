@@ -1,4 +1,4 @@
-import { $ } from "./utils";
+import { $ } from "../utils";
 
 const feedbackDialog = $("#feedback-dialog");
 
